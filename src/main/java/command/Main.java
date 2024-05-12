@@ -165,6 +165,52 @@ class Editor {
     }
 }
 
+/**
+ *  1. If you see a set of related classes that represent specific actions (such as “Copy”, “Cut”, “Send”, “Print”, etc.)
+ *  2. The commands may implement the relevant actions on their own or delegate the work to separate objects—that will be the receivers
+ *
+ */
+
+
+/**
+ * The original Command pattern separates the Command objects from the Receiver objects because the responsibility of the two sets are different.
+ *
+ * Receivers own the business logic of the application. These types should exist outside the pattern. In a practical case, Receivers were probably already present in the code base, before commands.
+ *
+ * For example, thinking to a bank application, a receiver can be represented by the following type:
+ *
+ * public class Account {
+ *     private final double balance;
+ *     // Construct omissis
+ *     public Account deposit(double amount) {
+ *         // Deposit code
+ *     }
+ *     public Account withdraw(double amount) {
+ *         // Withdraw code
+ *     }
+ * }
+ * One of the aims of the command design pattern is that of give a unified, homogeneous and standard way to execute operations on a set of objects (i.e. the receivers). They have not to care how to perform the real business logic. This will limit the reusability of the code implementing business logic.
+ *
+ * For this reason, the Commands implementation has to forward the information to the Receiver. It follows an example.
+ *
+ * public class DepositCommand implements Command {
+ *     private final Account account;
+ *     // An instance of Command should reprenset only a single request
+ *     private final double amount;
+ *     public DepositCommand(Account account, double amount) {
+ *         this.account = account;
+ *         this.amount = amount;
+ *     }
+ *
+ *     public void execute() {
+ *         account.deposit(amount);
+ *     }
+ *
+ *     // Omissis..
+ * }
+ * In conclusion, imho, the statement in the accepted answer is not correct.
+ */
+
 public class Main {
     public static void main(String[] args) {
         Editor editor = new Editor();
